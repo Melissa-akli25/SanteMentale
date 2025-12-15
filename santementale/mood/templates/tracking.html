@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tracking</title>
+  <!-- Ajoute Chart.js dans ton <head> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            background: '#ffffff',
+            card: '#D6CFFF',
+            accent: '#1C274C',
+            purple: '#D6CFFF',
+            blue: '#B3E0FF',
+            pink: '#FFD1DC',
+            green: '#D1FFD8'
+          },
+          borderRadius: {
+            menu: '2rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-jua min-h-screen flex flex-col justify-between pb-[8rem]">
+
+  <!-- Header -->
+  <header class="p-6 flex justify-between items-center">
+    <span class="text-[1.5rem]">TRACKING</span>
+    <div class="flex gap-6">
+      <a href="{% url 'logout' %}"><i class="fa-solid fa-power-off text-3xl"></i></a>
+      <a href="{% url 'profile' %}"><i class="fa-solid fa-gear text-3xl"></i></a>
+    </div>
+  </header>
+
+    {% if messages %}
+  <div class="my-2">
+    {% for message in messages %}
+      <div class="p-3 rounded-md 
+                  {% if message.tags == 'error' %} bg-red-200 text-red-800 {% endif %}
+                  {% if message.tags == 'success' %} bg-green-200 text-green-800 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+  <!-- Titre -->
+  <h1 class="mx-8 text-2xl text-accent font-bold">Mood Tracking</h1>
+
+  <!-- Contenu principal -->
+  <main class="px-6 pb-6 max-w-[63rem] w-full m-auto flex-1">
+    <!-- Vue formulaire -->
+    <section id="tracking-form" class="grid grid-cols-2 gap-6">
+      <!-- Eau -->
+      <div class="border-[5px] border-blue rounded-xl p-6 flex flex-col items-center gap-4">
+        <i class="fa-solid fa-droplet text-4xl text-blue"></i>
+        <label class="text-lg">Eau (Verre)</label>
+        <div class="flex items-center gap-4">
+          <button onclick="adjust('water', -1)" class="bg-blue px-4 py-2 rounded-full">-</button>
+          <span id="water" class="text-xl">0</span>
+          <button onclick="adjust('water', 1)" class="bg-blue px-4 py-2 rounded-full">+</button>
+        </div>
+      </div>
+
+      <!-- Sommeil -->
+      <div class="border-[5px] border-purple rounded-xl p-6 flex flex-col items-center gap-4">
+        <i class="fa-solid fa-moon text-4xl text-purple"></i>
+        <label class="text-lg">Sommeil(heures)</label>
+        <div class="flex items-center gap-4">
+          <button onclick="adjust('sleep', -0.5)" class="bg-purple px-4 py-2 rounded-full">-</button>
+          <span id="sleep" class="text-xl">0</span>
+          <button onclick="adjust('sleep', 0.5)" class="bg-purple px-4 py-2 rounded-full">+</button>
+        </div>
+      </div>
+
+      <!-- Humeur -->
+      <div class="border-[5px] border-green rounded-xl p-6 flex flex-col items-center gap-4">
+        <i class="fa-solid fa-face-smile text-4xl text-green"></i>
+        <label class="text-lg">Humeur</label>
+        <div class="flex gap-2 text-2xl">
+          <button onclick="setMood('😊')">😊</button>
+          <button onclick="setMood('😐')">😐</button>
+          <button onclick="setMood('😔')">😔</button>
+          <button onclick="setMood('😮')">😮</button>
+          <button onclick="setMood('😴')">😴</button>
+        </div>
+      </div>
+
+      <!-- Sport -->
+      <div class="border-[5px] border-pink rounded-xl p-6 flex flex-col items-center gap-4">
+        <i class="fa-solid fa-person-running text-4xl text-pink"></i>
+        <label class="text-lg">Sport(heures)</label>
+        <div class="flex items-center gap-4">
+          <button onclick="adjust('sport', -0.5)" class="bg-pink px-4 py-2 rounded-full">-</button>
+          <span id="sport" class="text-xl">0</span>
+          <button onclick="adjust('sport', 0.5)" class="bg-pink px-4 py-2 rounded-full">+</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bouton -->
+    <form method="POST" action="{% url 'save_tracking' %}" class="w-full flex">
+    {% csrf_token %}
+    <input type="hidden" name="water" id="input-water">
+    <input type="hidden" name="sleep" id="input-sleep">
+    <input type="hidden" name="sport" id="input-sport">
+    <input type="hidden" name="mood" id="input-mood">
+
+    <button type="submit" id="sauvegardetracking" class="bg-card px-6 py-3 rounded-full my-8 mx-auto text-lg hover:bg-gray-700 transition">
+      SAUVEGARDER MON TRACKING
+    </button>
+  </form>
+
+
+    <!-- Vue calendaire -->
+    <section id="calendar-view" class="mt-10">
+  <h2 class="text-xl text-accent font-bold mb-4">MoodBoard</h2>
+  <div class="grid grid-cols-7 gap-4 text-center w-full flex flex-wrap">
+    {% for t in trackings %}
+      <div class="bg-white rounded-xl p-4 shadow flex flex-col items-center gap-2 text-sm">
+        <div class="w-full flex justify-between">
+          <div class="flex gap-1 text-blue text-sm"><i class="fa-solid fa-droplet"></i> {{ t.hydratation }}</div>
+          <div class="flex gap-1 text-purple text-sm"><i class="fa-solid fa-moon"></i> {{ t.sommeil }}</div>
+          <div class="flex gap-1 text-pink text-sm"><i class="fa-solid fa-person-running"></i> {{ t.activite }}</div>
+        </div>
+        <div class="w-full flex justify-between">
+          <div class="text-[2rem] humeur">{{t.humeur}}</div> <!-- humeur si tu ajoutes un champ -->
+          <div class="text-[2rem] text-gray-500">{{ t.date_mood|date:"d" }}</div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-gray-500">Aucun tracking enregistré pour l’instant.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="mt-10">
+  <h2 class="text-xl text-accent font-bold mb-4">Diagramme du jour</h2>
+  <canvas id="trackingChart" width="400" height="200"></canvas>
+</section>
+
+
+  </main>
+
+  
+<!-- Popup -->
+<div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative transform transition-transform duration-300 scale-95 opacity-0">
+    <!-- Fermer -->
+    <button id="closePopup" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">✕</button>
+
+    <!-- Contenu -->
+    <h2 class="text-xl font-semibold mb-4">Message du jour</h2>
+    <p id="popup-message" class="text-gray-600 mb-6"></p>
+
+    <!-- Validation -->
+    <button id="validatePopup" class="w-full px-4 py-2 rounded hover:bg-green-700 transition">
+      Continuer
+    </button>
+  </div>
+</div>
+
+
+  <!-- Menu -->
+  <footer class="fixed bottom-0 left-0 w-full px-4 pb-4 z-50">
+  <nav class="bg-card mx-auto w-[80%] max-w-[60rem] rounded-menu px-4 py-3 shadow-md">
+    <div class="flex justify-around items-center">
+      <a href="{% url 'home' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-house text-3xl text-accent"></i>
+        <span class="text-xs text-black">HOME</span>
+      </a>
+      <a href="{% url 'tracking' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-face-laugh text-3xl text-accent"></i>
+        <span class="text-xs text-black">TRACKING</span>
+      </a>
+      <a href="{% url 'resolutions' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-list-check text-3xl text-accent"></i>
+        <span class="text-xs text-black">RESOLUTIONS</span>
+      </a>
+      <a href="{% url 'exercices' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-person-praying text-3xl text-accent"></i>
+        <span class="text-xs text-black">EXERCICES</span>
+      </a>
+      <a href="{% url 'articles' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-accent"></i>
+        <span class="text-xs text-black">ARTICLES</span>
+      </a>
+      <a href="{% url 'numeros' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-phone-volume text-3xl text-accent"></i>
+        <span class="text-xs text-black">NUMEROS</span>
+      </a>
+    </div>
+  </nav>
+</footer>
+
+
+
+
+<script>
+ 
+  let mood;
+  let water = 0, sleep = 0, sport = 0;
+  const calendarGrid = document.getElementById('calendar-grid');
+  const popup = document.getElementById('popup');
+  const popupContent = popup.querySelector('div');
+  const popupMessage = document.getElementById('popup-message');
+  const closeBtn = document.getElementById('closePopup');
+  const validateBtn = document.getElementById('validatePopup');
+  const sauvegardetracking = document.getElementById('sauvegardetracking');
+
+  sauvegardetracking.addEventListener("click",()=>{
+    saveTracking();
+  })
+
+  // Messages personnalisés
+  const moodMessages = {
+    '😊': "Super humeur aujourd’hui ! Continue sur cette lancée ✨",
+    '😐': "Journée neutre… prends un moment pour toi 💙",
+    '😔': "Courage, demain sera meilleur 🌱",
+    '😮': "Quelle surprise ! Note ce qui t’a marqué aujourd’hui 🌟",
+    '😴': "Tu sembles fatigué… repose-toi bien 💤"
+  };
+
+  // Ajuste les valeurs
+  function adjust(id, value) {
+    const el = document.getElementById(id);
+    let current = parseFloat(el.textContent);
+    if (isNaN(current)) current = 0;
+    current = Math.max(0, Math.round((current + value) * 10) / 10);
+    el.textContent = current;
+
+    if (id === 'water') water = current;
+    if (id === 'sleep') sleep = current;
+    if (id === 'sport') sport = current;
+  }
+
+  // Définit l’humeur
+  function setMood(value) {
+    mood = value;
+    document.querySelectorAll('#tracking-form button').forEach(btn => {
+      if (btn.textContent === value) {
+        btn.classList.add('ring-2', 'ring-accent');
+      } else {
+        btn.classList.remove('ring-2', 'ring-accent');
+      }
+    });
+  }
+
+  document.querySelectorAll(".humeur").forEach(e=>{
+    switch(e.innerHTML){
+      case 'happy': e.innerHTML="😊"; break;
+      case 'neutral': e.innerHTML="😐"; break;
+      case 'sad': e.innerHTML="😔"; break;
+      case 'surprised': e.innerHTML="😮"; break;
+      case 'sleepy': e.innerHTML="😴"; break;
+      default : e.innerHTML="😐"; break;
+
+  }
+
+  })
+
+  
+
+  // Sauvegarde et affiche la popup
+  function saveTracking() {
+    // Mettre les valeurs dans les inputs cachés (jamais vides)
+    document.getElementById("input-water").value = Math.round(water) || 0;
+    document.getElementById("input-sleep").value = Math.round(sleep) || 0;
+    document.getElementById("input-sport").value = Math.round(sport) || 0;
+
+    switch(mood){
+      case '😊': document.getElementById("input-mood").value = "happy"; break;
+      case '😐': document.getElementById("input-mood").value = "neutral"; break;
+      case '😔': document.getElementById("input-mood").value = "sad"; break;
+      case '😮': document.getElementById("input-mood").value = "surprised"; break;
+      case '😴': document.getElementById("input-mood").value = "sleepy"; break;
+      default:   document.getElementById("input-mood").value = "neutral";
+    }
+
+    // Message personnalisé
+    popupMessage.textContent = moodMessages[mood] || "Bonne journée 🌸";
+
+    console.log("mood" + mood);
+
+    // Affiche la popup
+    popup.classList.remove('hidden');
+    setTimeout(() => {
+      popup.classList.add('flex');
+      popupContent.classList.remove('scale-95', 'opacity-0');
+      popupContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+
+    // Soumettre le formulaire
+    document.querySelector("form").submit();
+  }
+
+  // Fermer la popup
+  closeBtn.addEventListener('click', () => {
+    popupContent.classList.remove('scale-100', 'opacity-100');
+    popupContent.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+      popup.classList.remove('flex');
+      popup.classList.add('hidden');
+    }, 300);
+  });
+
+  // Valider la popup et afficher le calendrier + diagramme
+  validateBtn.addEventListener('click', () => {
+    closeBtn.click();
+    document.getElementById('tracking-form').classList.add('hidden');
+    document.getElementById('calendar-view').classList.remove('hidden');
+    generateCalendar();
+    generateChart(); // <-- affiche le diagramme
+  });
+  
+  document.querySelector("form").addEventListener("submit", function() {
+  // Toujours envoyer un nombre, jamais une chaîne vide
+  document.getElementById("input-water").value = water ? Math.round(water) : 0;
+  document.getElementById("input-sleep").value = sleep ? Math.round(sleep) : 0;
+  document.getElementById("input-sport").value = sport ? Math.round(sport) : 0;
+
+  // Toujours une humeur valide
+  if (!document.getElementById("input-mood").value) {
+    document.getElementById("input-mood").value = "neutral";
+  }
+});
+
+
+  // Génère les 30 derniers jours
+  function generateCalendar() {
+    calendarGrid.innerHTML = '';
+    const today = new Date();
+
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const day = date.getDate();
+
+      const cell = document.createElement('div');
+      cell.className = 'bg-white rounded-xl p-4 shadow flex flex-col items-center gap-2 text-sm';
+
+      if (i === 0) {
+        cell.innerHTML = `
+          <div class="w-full flex justify-between">
+            <div class="flex gap-1 text-blue text-sm"><i class="fa-solid fa-droplet"></i> ${water}</div>
+            <div class="flex gap-1 text-purple text-sm"><i class="fa-solid fa-moon"></i> ${sleep}</div>
+            <div class="flex gap-1 text-pink text-sm"><i class="fa-solid fa-person-running"></i> ${sport}</div>
+          </div>
+          <div class="w-full flex justify-between">
+            <div class="text-[2rem]">${mood}</div>
+            <div class="text-[2rem] text-gray-500">${day}</div>
+          </div>
+        `;
+      } else {
+        cell.innerHTML = `<div class="text-xs text-gray-500">${day}</div><div class="text-gray-300 text-xl">—</div>`;
+      }
+
+      calendarGrid.appendChild(cell);
+    }
+  }
+
+  // Génère un diagramme avec Chart.js
+  function generateChart() {
+    const ctx = document.getElementById('trackingChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Eau (verres)', 'Sommeil (h)', 'Sport (h)'],
+        datasets: [{
+          label: 'Suivi du jour',
+          data: [water, sleep, sport],
+          backgroundColor: ['#B3E0FF', '#D6CFFF', '#FFD1DC']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Résumé du jour' }
+        }
+      }
+    });
+  }
+
+  generateChart();
+</script>
+
+
+</body>
+</html>

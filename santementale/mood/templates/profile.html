@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mon Profil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            background: '#ffffff',
+            card: '#D6CFFF',
+            accent: '#1C274C',
+            blue: '#B3E0FF',
+            green: '#D1FFD8',
+            pink: '#FFD1DC',
+            red: '#FFB3B3'
+          },
+          borderRadius: {
+            menu: '2rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-jua min-h-screen flex flex-col justify-between pb-[8rem]">
+
+
+
+  <!-- Header -->
+  <header class="p-6 flex justify-between items-center">
+    <span class="text-[1.5rem]">MON PROFIL</span>
+    <div class="flex gap-6">
+      <a href="{% url 'logout' %}"><i class="fa-solid fa-power-off text-3xl"></i></a>
+      <a href="{% url 'profile' %}"><i class="fa-solid fa-gear text-3xl"></i></a>
+    </div>
+  </header>
+
+    {% if messages %}
+  <div class="my-2">
+    {% for message in messages %}
+      <div class="p-3 rounded-md 
+                  {% if message.tags == 'error' %} bg-red-200 text-red-800 {% endif %}
+                  {% if message.tags == 'success' %} bg-green-200 text-green-800 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+  <!-- Titre -->
+  <h1 class="mx-8 text-2xl text-accent font-bold mb-6">Mes Informations</h1>
+
+  <!-- Contenu principal -->
+  <main class="px-6 pb-6 max-w-[63rem] w-full m-auto flex-1 space-y-8">
+
+    <!-- Infos personnelles -->
+    <section class="border-card border-[4px] rounded-xl p-6 shadow space-y-4">
+      <form method="POST" action="{% url 'changeinfos' %}">
+  {% csrf_token %}
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div>
+      <label for="nom" class="block text-accent mb-1">Nom :</label>
+      <input type="text" id="nom" name="nom" value="{{ user_nom }}" class="w-full p-3 rounded-md border border-gray-300" />
+    </div>
+    <div>
+      <label for="prenom" class="block text-accent mb-1">Prénom :</label>
+      <input type="text" id="prenom" name="prenom" value="{{ user_prenom }}" class="w-full p-3 rounded-md border border-gray-300" />
+    </div>
+    <div>
+      <label for="email" class="block text-accent mb-1">Adresse Mail :</label>
+      <input type="email" id="email" value="{{ user_mail }}" class="w-full p-3 rounded-md border border-gray-300" readonly/>
+    </div>
+  </div>
+  <button type="submit" class="bg-card px-6 py-3 rounded-full mt-4 hover:bg-gray-700 transition">
+    SAVE CHANGES
+  </button>
+</form>
+
+    </section>
+
+    <!-- Changement de mot de passe -->
+    <section class="border-card border-[4px] rounded-xl p-6 shadow space-y-4">
+      <h2 class="text-xl text-accent font-bold">CHANGER DE MOT DE PASSE</h2>
+      <form method="POST" action="{% url 'changemdp' %}">
+  {% csrf_token %}
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div>
+      <label for="currentPwd" class="block text-accent mb-1">Mot De Passe Actuel :</label>
+      <input type="password" id="currentPwd" name="currentPwd" class="w-full p-3 rounded-md border border-gray-300" />
+    </div>
+    <div>
+      <label for="newPwd" class="block text-accent mb-1">Nouveau Mot De Passe :</label>
+      <input type="password" id="newPwd" name="newPwd" class="w-full p-3 rounded-md border border-gray-300" />
+    </div>
+    <div>
+      <label for="confirmPwd" class="block text-accent mb-1">Confirmation Mot De Passe :</label>
+      <input type="password" id="confirmPwd" name="confirmPwd" class="w-full p-3 rounded-md border border-gray-300" />
+    </div>
+  </div>
+  <button type="submit" class="bg-card my-10 px-6 py-3 rounded-full mt-4 hover:bg-gray-700 transition">
+    SAVE NEW PASSWORD
+  </button>
+</form>
+
+    </section>
+
+    <!-- Boutons bas -->
+    <section class="flex flex-col sm:flex-row justify-between gap-4">
+      <button class="bg-red text-white px-6 py-3 rounded-full hover:bg-red-600 transition">
+        DELETE ACCOUNT
+      </button>
+      <a href="{% url 'logout' %}" class="bg-gray-300 text-accent px-6 py-3 rounded-full hover:bg-gray-400 transition">
+        DECONNEXION
+      </a>
+    </section>
+  </main>
+
+  <!-- Menu -->
+  <!-- Menu -->
+  <footer class="fixed bottom-0 left-0 w-full px-4 pb-4 z-50">
+  <nav class="bg-card mx-auto w-[80%] max-w-[60rem] rounded-menu px-4 py-3 shadow-md">
+    <div class="flex justify-around items-center">
+      <a href="{% url 'home' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-house text-3xl text-accent"></i>
+        <span class="text-xs text-black">HOME</span>
+      </a>
+      <a href="{% url 'tracking' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-face-laugh text-3xl text-accent"></i>
+        <span class="text-xs text-black">TRACKING</span>
+      </a>
+      <a href="{% url 'resolutions' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-list-check text-3xl text-accent"></i>
+        <span class="text-xs text-black">RESOLUTIONS</span>
+      </a>
+      <a href="{% url 'exercices' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-person-praying text-3xl text-accent"></i>
+        <span class="text-xs text-black">EXERCICES</span>
+      </a>
+      <a href="{% url 'articles' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-accent"></i>
+        <span class="text-xs text-black">ARTICLES</span>
+      </a>
+      <a href="{% url 'numeros' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-phone-volume text-3xl text-accent"></i>
+        <span class="text-xs text-black">NUMEROS</span>
+      </a>
+    </div>
+  </nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Numéros utiles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            background: '#ffffff',
+            card: '#D6CFFF',
+            accent: '#1C274C',
+            blue: '#B3E0FF',
+            green: '#D1FFD8',
+            pink: '#FFD1DC',
+            red: '#FFB3B3'
+          },
+          borderRadius: {
+            menu: '2rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-jua min-h-screen flex flex-col justify-between pb-[8rem]">
+
+  <!-- Header -->
+  <header class="p-6 flex justify-between items-center">
+    <span class="text-[1.5rem]"></span>
+    <div class="flex gap-6">
+      <a href="{% url 'logout' %}"><i class="fa-solid fa-power-off text-3xl"></i></a>
+      <a href="{% url 'profile' %}"><i class="fa-solid fa-gear text-3xl"></i></a>
+    </div>
+  </header>
+
+  <!-- Titre -->
+  <h1 class="mx-8 text-2xl text-accent font-bold mb-6">Numéros utiles</h1>
+
+  <!-- Contenu principal -->
+  <main class="px-6 pb-6 max-w-[63rem] w-full m-auto flex-1">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Carte Police -->
+      <a href="tel:17" class="bg-red rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-shield-halved text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">Police</p>
+        <p class="text-sm text-gray-700">Appeler le 17</p>
+      </a>
+
+      <!-- Carte Pompiers -->
+      <a href="tel:18" class="bg-pink rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-fire-extinguisher text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">Pompiers</p>
+        <p class="text-sm text-gray-700">Appeler le 18</p>
+      </a>
+
+      <!-- Carte SAMU -->
+      <a href="tel:15" class="bg-blue rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-kit-medical text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">SAMU</p>
+        <p class="text-sm text-gray-700">Appeler le 15</p>
+      </a>
+
+      <!-- Carte Numéro Européen -->
+      <a href="tel:112" class="bg-green rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-globe text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">Urgences Européennes</p>
+        <p class="text-sm text-gray-700">Appeler le 112</p>
+      </a>
+
+      <!-- Carte SOS Médecins -->
+      <a href="tel:3624" class="bg-card rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-user-doctor text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">SOS Médecins</p>
+        <p class="text-sm text-gray-700">Appeler le 3624</p>
+      </a>
+
+      <!-- Carte Numéro Santé mentale -->
+      <a href="tel:3114" class="bg-pink rounded-xl p-6 shadow hover:scale-105 transition text-center block">
+        <i class="fa-solid fa-heart text-4xl text-accent mb-3"></i>
+        <p class="text-lg font-bold text-accent">Santé Mentale</p>
+        <p class="text-sm text-gray-700">Appeler le 3114</p>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- Menu -->
+  <footer class="fixed bottom-0 left-0 w-full px-4 pb-4 z-50">
+  <nav class="bg-card mx-auto w-[80%] max-w-[60rem] rounded-menu px-4 py-3 shadow-md">
+    <div class="flex justify-around items-center">
+      <a href="{% url 'home' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-house text-3xl text-accent"></i>
+        <span class="text-xs text-black">HOME</span>
+      </a>
+      <a href="{% url 'tracking' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-face-laugh text-3xl text-accent"></i>
+        <span class="text-xs text-black">TRACKING</span>
+      </a>
+      <a href="{% url 'resolutions' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-list-check text-3xl text-accent"></i>
+        <span class="text-xs text-black">RESOLUTIONS</span>
+      </a>
+      <a href="{% url 'exercices' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-person-praying text-3xl text-accent"></i>
+        <span class="text-xs text-black">EXERCICES</span>
+      </a>
+      <a href="{% url 'articles' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-accent"></i>
+        <span class="text-xs text-black">ARTICLES</span>
+      </a>
+      <a href="{% url 'numeros' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-phone-volume text-3xl text-accent"></i>
+        <span class="text-xs text-black">NUMEROS</span>
+      </a>
+    </div>
+  </nav>
+</footer>
+</body>
+</html>

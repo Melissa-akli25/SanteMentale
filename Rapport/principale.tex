@@ -1,0 +1,756 @@
+\documentclass[12pt]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{float}
+
+\geometry{a4paper, margin=2.5cm}
+
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+
+    % Logo Université Paris Nanterre
+    \vspace*{1cm}
+    \includegraphics[width=6cm]{SanteMental/Universite_Paris_Nanterre_300x300.png}\\[1.5cm]
+
+    {\Huge \textbf{Rapport de Projet}}\\[0.5cm]
+    {\Large \textbf{Application de Suivi de Santé Mentale}}\\[1cm]
+
+    {\large Licence MIASHS – Parcours MIAGE}\\
+    {\large Université Paris Nanterre}\\[1cm]
+
+    % Noms du groupe
+    \vspace{0.5cm}
+    \begin{flushleft}
+    \large \textbf{Réalisé par :}\\[0.3cm]
+    Marwa \textsc{HAFSATI}\\
+    Melissa \textsc{AKLI}\\
+    Assia \textsc{FERRADJI}\\
+    Hanna \textsc{DOUER}\\
+    \end{flushleft}
+
+    \vfill
+    \textbf{Année universitaire 2025–2026}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+Pour ce projet, nous avons choisi de développer une application web dédiée au bien-être mental : un espace digital bienveillant dont l’objectif est d’aider chacun à mieux comprendre, suivre et améliorer son état émotionnel au quotidien.
+
+L’idée est née d’un constat simple : aujourd’hui, beaucoup de personnes expriment le besoin d’être plus attentives à leurs émotions, de suivre leurs habitudes de vie, ou encore d’accéder facilement à des ressources fiables pour se recentrer et se sentir mieux.
+
+Nous avons donc imaginé une plateforme apaisante, intuitive et accessible à tous, qu’il s’agisse d’utilisateurs souhaitant simplement suivre leur humeur ou de personnes cherchant à instaurer des routines de bien-être plus équilibrées.
+
+Nous avons accordé une attention particulière à l’importance d’une interface rassurante, d’un ton doux et d’un design pastel spécialement conçu pour réduire la charge mentale de l’utilisateur.
+
+\section{Objectifs et problématique}
+
+Le développement de cette application s’inscrit dans une démarche visant à structurer et digitaliser la prise en charge personnelle du bien-être mental. 
+
+\subsection*{Objectifs du projet}
+
+Les objectifs ont été définis pour l'utilisateur pour permettre un usage simplifié :
+\begin{itemize}
+    \item offrir un outil structuré de suivi émotionnel permettant d’observer l’évolution de l’humeur au fil du temps 
+    \item fournir un graphique facilitant l’analyse des variations émotionnelles 
+    \item accompagner l’utilisateur dans l’amélioration de ses habitudes de vie (sommeil, hydratation, objectifs personnels) 
+    \item proposer des ressources fiables et accessibles telles que des méditations, exercices de respiration et articles 
+    \item garantir une interface rassurante pensé pour réduire la charge mentale de l'utilisateur.
+\end{itemize}
+
+\subsection*{Problématique}
+
+La question à laquelle notre projet souhaite répondre est la suivante :
+
+\begin{quote}
+\textit{Comment concevoir une plateforme numérique capable d’aider l’utilisateur à comprendre ses émotions, à suivre ses habitudes de vie et à adopter des routines de bien-être, tout en restant accessible, agréable et facile à utiliser ?}
+\end{quote}
+
+\section{Méthodologie de travail}
+
+Pour mener à bien le développement de notre application dédiée au bien-être mental, nous avons adopté une démarche structurée. Le travail a été organisé en plusieurs phases, permettant une progression rapide, une répartition efficace des tâches et une bonne communication au sein de l'équipe.
+
+\subsection*{Phase d’analyse}
+
+Cette première étape a consisté à définir précisément les besoins fonctionnels et non fonctionnels de l'application. Nous avons identifié les attentes des futurs utilisateurs, dans un contexte où la santé mentale représente un enjeu majeur aujourd’hui . De nombreuses personnes, et plus particulièrement les jeunes, expriment un mal-être , souvent marqué par une augmentation du stress, de l’anxiété et des difficultés à gérer leurs émotions au quotidien.
+
+Ce sujet nous tenait particulièrement à cœur. Il nous semblait essentiel de concevoir une application capable d’apporter un soutien pour un maximum de personnes,en proposant un environnement bienveillant et des ressources permettant aux utilisateurs de mieux comprendre et réguler leur état émotionnel, tout en préservant leur anonymat et en évitant tout sentiment de jugement.
+
+\subsection*{Phase de conception}
+
+Une fois les besoins identifiés, nous avons élaboré le modèle conceptuel de données (MCD) et structuré la base de données. Cette étape a également inclus la définition de l’architecture générale du projet Django, l’organisation des différentes applications internes, ainsi que la planification de la navigation entre les pages.  
+Nous avons porté une attention particulière à la cohérence visuelle de l’interface et à l’esthétique pastel censée réduire la charge mentale de l'utilisateur.
+
+\subsection*{Phase de développement}
+
+Le développement s’est déroulé en plusieurs étapes, afin de permettre une construction progressive et cohérente de l’application. 
+Notre objectif était de garantir une expérience utilisateur fluide tout en assurant une architecture robuste côté serveur.
+
+\subsubsection*{Backend}
+
+Le développement backend a été réalisé en Python. Nous avons utilisé le framework Django, qui offre une structure robuste, modulaire et parfaitement adaptée au développement d'applications web complètes.
+
+Django nous a permis d’intégrer rapidement :
+\begin{itemize}
+    \item un système d’authentification sécurisé
+    \item la gestion des profils utilisateurs 
+    \item les modèles dédiés au suivi de l’humeur (Mood Tracking) 
+    \item les modules de bien-être (sommeil, hydratation, objectifs) 
+    \item l’accès aux ressources (méditations, exercices de respiration, articles)
+\end{itemize}
+
+Grâce à son ORM intégré, nous avons pu manipuler la base de données de manière fluide sans rédiger manuellement de requêtes SQL complexes. Django garantit également une séparation claire entre la logique métier, les vues et les templates, ce qui a facilité l’organisation du code, la maintenance et l’évolution du projet.
+
+\subsubsection*{Frontend}
+
+Pour la partie frontend, nous avons utilisé les templates HTML de Django combinés avec le framework Tailwind CSS. Ce choix nous a permis de concevoir une interface moderne et adaptée aux attentes d’une application centrée sur le bien-être mental.
+
+Tailwind a facilité :
+\begin{itemize}
+    \item l’application d’une charte graphique pastel et apaisante 
+    \item la mise en place d’un design responsive adapté à tous les appareils 
+\end{itemize}
+
+Grâce à Tailwind, nous avons pu concevoir rapidement des composants visuels harmonieux, en accord avec l’ambiance douce et rassurante recherchée. JavaScript a également été utilisé pour enrichir l’interactivité, notamment pour l’animation de cohérence cardiaque via la Web Animation API.
+
+\subsubsection*{Base de données}
+
+Nous avons choisi MySQL comme système de gestion de base de données, en utilisant le langage SQL pour stocker, interroger et manipuler les données. La base contient l’ensemble des informations essentielles au fonctionnement de l'application, notamment :
+\begin{itemize}
+    \item les profils utilisateurs 
+    \item les humeurs enregistrées au quotidien 
+    \item les données liées au sommeil et à l’hydratation 
+    \item les ressources proposées (méditations, respirations guidées, articles)
+\end{itemize}
+
+
+\subsection*{Phase de test}
+
+Une série de tests a été réalisée afin de vérifier le bon fonctionnement de chaque module. Cela inclut des tests de navigation, des tests d’intégration entre les différentes applications Django, ainsi que la vérification de la cohérence des données stockées.  
+Nous avons également effectué des tests d’affichage sur différents appareils (ordinateur, tablette) pour garantir une expérience fluide et responsive.
+
+\subsection*{Phase de finalisation}
+
+La dernière phase a consisté à corriger les derniers bugs identifiés, harmoniser l’interface graphique, optimiser les contenus et rédiger la documentation du projet. Nous avons également utilisé l’intelligence artificielle comme outil d’assistance pour améliorer le code.
+
+Nous avons par la suite rédiger un rapport du projet sur latex
+
+Tout au long du projet, la communication interne a joué un rôle essentiel : un Google Doc partagé a servi de support centralisé pour les idées, décisions et suivis de tâches, tandis que GitHub a permis une collaboration technique structurée et efficace.
+
+\chapter{Analyse des Besoins}
+
+\section{Besoins fonctionnels}
+
+Les besoins fonctionnels définissent l’ensemble des actions que l’utilisateur doit pouvoir réaliser au sein de l’application
+\subsection*{Gestion des utilisateurs}
+
+La gestion des utilisateurs représente un module fondamental de l’application. Elle permet à chaque individu d'avoir un compte unique et sécurisé
+\begin{itemize}
+    \item Inscription, connexion et déconnexion
+    \item Gestion de session sécurisée pour protéger les données sensibles
+    \item Accès personnalisé aux fonctionnalités selon son profil
+\end{itemize}
+
+\subsection*{Mood Tracking}
+
+Le suivi de l’humeur offre à l’utilisateur la possibilité d’enregistrer ses émotions chaque jour et d’en suivre la progression au fil du temps.
+
+\begin{itemize}
+    \item Saisie quotidienne de l’humeur via des emojis
+    \item Message facultatif pour apporter de la motivation 
+    \item Visualisation d’un calendrier des émotions
+\end{itemize}
+
+\subsection*{Bien-être}
+
+Ce module regroupe plusieurs fonctionnalités complémentaires visant à améliorer les habitudes de vie des utilisateurs. Chaque outil a été pensé pour accompagner l’utilisateur sans pression, dans une démarche bienveillante.
+
+\begin{itemize}
+    \item Suivi des heures de sommeil enregistrées
+    \item Suivi de l’hydratation quotidienne
+    \item Fixer des objectifs personnels ( ex: faire du sport demain, prendre un café avec mes amis )
+\end{itemize}
+
+\section{Besoins non fonctionnels}
+
+Les besoins non fonctionnels définissent la qualité globale du système et les exigences nécessaires pour garantir une expérience utilisateur optimale. Ils concernent principalement la sécurité, la performance, l’ergonomie et la maintenabilité de l’application.
+
+\subsection*{Sécurité}
+
+La sécurité représente un enjeu essentiel, notamment dans une application manipulant des données personnelles et émotionnelles. Plusieurs mesures ont été intégrées afin d’assurer la protection des utilisateurs :
+
+\begin{itemize}
+    \item Hachage des mots de passe via le système d’authentification Django
+    \item Protection CSRF intégrée pour empêcher les attaques par falsification de requêtes
+\end{itemize}
+\subsection*{Performance}
+
+La fluidité d’utilisation est un critère essentiel pour encourager une utilisation régulière de l’application :
+
+\begin{itemize}
+    \item Temps de chargement réduit pour un accès rapide aux informations.
+    \item Ressources optimisées afin de ne pas surcharger le navigateur ou le serveur
+\end{itemize}
+
+\subsection*{Maintenabilité}
+
+L’application doit pouvoir évoluer facilement et être simple à maintenir :
+
+\begin{itemize}
+    \item Architecture Django modulaire permettant d’ajouter ou modifier des fonctionnalités.
+    \item Structure de code claire, documentée et organisée pour faciliter les mises à jour.
+\end{itemize}
+
+\section{Contraintes techniques}
+
+Plusieurs contraintes techniques ont orienté la conception et le développement de l’application :
+
+\begin{itemize}
+    \item \textbf{Backend :} Framework Django utilisant Python 3
+    \item \textbf{Frontend :} HTML, CSS, JavaScript
+    \item \textbf{Animations :} Web Animation API pour la respiration guidée
+    \item \textbf{Base de données :}  MySQL pour le développement et la production
+\end{itemize}
+\chapter{Conception de la Base de Données}
+
+La base de données du projet \textit a été conçue de manière simple et efficace afin de regrouper toutes les informations nécessaires au suivi quotidien de l’utilisateur. Elle est composé de trois tables principales : \texttt{utilisateur}, \texttt{tracking} et \texttt{resolutions}. Les relations établies permettent d’assurer la cohérence des données.
+
+\section{Tables principales}
+
+\subsection*{Table \texttt{utilisateur}}
+Cette table contient les informations personnelles de chaque utilisateur inscrit :
+\begin{itemize}
+    \item \texttt{id\_utilisateur} : identifiant unique (clé primaire)
+    \item \texttt{prenom} et \texttt{nom} : informations d’identité 
+    \item \texttt{adresse\_mail} : email de connexion 
+    \item \texttt{mdp} : mot de passe haché 
+\end{itemize}
+C'est la table de référence à laquelle les autres tables sont connectées
+
+\subsection*{Table \texttt{tracking}}
+Cette table enregistre les données quotidiennes saisies par l’utilisateur
+\begin{itemize}
+    \item \texttt{date\_mood} : date de saisie 
+    \item \texttt{hydratation} : quantité d’eau consommée 
+    \item \texttt{activite} : niveau ou temps d’activité physique 
+    \item \texttt{sommeil} : durée du sommeil en heures 
+    \item \texttt{humeur} : humeur du jour
+\end{itemize}
+Chaque utilisateur a son propre tracking 
+\begin{itemize}
+    \item \texttt{id\_utilisateur} : clé étrangère vers \texttt{utilisateur}.
+\end{itemize}
+
+\subsection*{Table \texttt{resolutions}}
+Elle enregistre les objectifs ou les résolutions fixés par l’utilisateur. Une résolution contient : 
+\begin{itemize}
+    \item \texttt{intitule} : nom ou objectif formulé 
+    \item \texttt{checked} : état d’avancement (accompli ou non) 
+    \item \texttt{date\_fixee} : date à laquelle l’objectif a été défini
+\end{itemize}
+Elle est également reliée à un utilisateur grâce à la clé étrangère :
+\begin{itemize}
+    \item \texttt{id\_utilisateur}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{SanteMental/bd.png}
+    \caption{Base de donnée}
+    \label{fig:creerCompte}
+\end{figure}
+\section{Relations entre les tables}
+
+Les relations de la base sont basées sur l’utilisateur :
+\begin{itemize}
+    \item Un utilisateur peut posséder plusieurs enregistrements de suivi dans \texttt{tracking} (one to many)
+    \item Un utilisateur peut définir autant de résolutions qu'il souhaite \texttt{resolutions} (one to many)
+\end{itemize}
+
+\chapter{Architecture Technique}
+
+Voici l’architecture technique de notre application, nous avons utilisé Django comme  framework au sein de ce projet 
+
+\section{Technologies utilisées}
+
+\subsection*{Backend}
+Le backend repose sur le framework Django (version 4+). Les technologies principales sont :
+\begin{itemize}
+    \item Django 4+ 
+    \item Django ORM pour la gestion des données 
+    \item système d’authentification natif  
+    \item système de migrations permettant de modifier la base de données en fonction des réponses de l'utulisateur 
+\end{itemize}
+
+\subsection*{Frontend}
+L’interface utilisateur est développée à l’aide de technologies web classiques, inclut par des animations visuelles et des fichiers multimédias pour les exercices de respiration :
+\begin{itemize}
+    \item HTML5 
+    \item CSS3 (avec un fichier \texttt{tailwind.css})
+    \item JavaScript
+    \item Web Animation API 
+    \item fichiers audio intégrés dans \texttt{/static/assets} pour les méditations.
+\end{itemize}
+
+\section{Structure du code}
+
+Le projet suit l’architecture MVC (Model–View–Controller) de Django.
+Cependant, le fonctionnement général reste très proche du modèle MVC classique :  
+\begin{itemize}
+    \item \textbf{Model} : gestion des données et interaction avec la base 
+    \item \textbf{View} : renvoie les fichiers HTML 
+    \item \textbf{Controller} : représenté par le système d’URLs de Django, qui redirige vers les vues
+\end{itemize}
+
+\subsection*{Models}
+
+Les modèles correspondent directement aux tables de notre base SQL.
+Ils définissent la structure des données et gèrent la communication avec la base.  
+
+Dans notre projet, nous avons choisi d’utiliser \textbf{notre propre base de données MySQL}.  
+Pour cela, nous avons défini un attribut \texttt{Meta} dans chaque modèle, afin de préciser :
+\begin{itemize}
+    \item le nom exact de la table SQL ;
+    \item le schéma déjà existant.
+\end{itemize}
+
+Cela permet à Django d’utiliser nos tables telles que créées dans notre fichier SQL initial.
+
+Les principaux modèles sont :
+\begin{itemize}
+    \item \texttt{Utilisateur} 
+    \item \texttt{Tracking} 
+    \item \texttt{Resolutions}
+\end{itemize}
+Ainsi, le modèle sert d’intermédiaire entre notre code Python et la base de données : 
+ \textbf{il nous permet de manipuler les données sans écrire directement de requêtes SQL}
+
+\subsection*{Views}
+
+Les vues constituent la partie \textit{logique} du projet. Elle est prise en charge par le fichier \texttt{views.py}.
+Elles remplissent plusieurs fonctions essentielles :
+\begin{itemize}
+    \item gérer les formulaires (connexion, inscription, saisie du suivi quotidien) ;
+    \item valider les données envoyées par l’utilisateur 
+    \item appliquer la logique métier (création d’un objectif, enregistrement du tracking, authentification) 
+    \item récupérer les informations depuis la base grâce au modèle 
+    \item renvoyer les templates HTML correspondants
+\end{itemize}
+
+La \textbf{view fait le lien entre l’utilisateur, la base de données, et l’affichage HTML}.
+
+\subsection*{Templates}
+
+Les templates constituent la partie "Vue" au sens de l’interface utilisateur.  
+Ils se trouvent dans \texttt{/mood/templates/} et représentent toutes les pages affichées.
+
+Exemples :
+\begin{itemize}
+    \item \texttt{home.html} : tableau de bord 
+    \item \texttt{tracking.html} : formulaire quotidien 
+    \item \texttt{resolutions.html} : gestion des objectifs 
+    \item \texttt{articles.html}, \texttt{exercices.html}, \texttt{numeros.html} : pages de ressources 
+    \item \texttt{login.html}, \texttt{register.html} : authentification
+\end{itemize}
+
+Ces fichiers utilisent le moteur de template Django pour afficher dynamiquement les données récupérées par les vues.
+
+\subsection*{Controller}
+
+Le controller est pris en charge par le fichier \texttt{urls.py}. Il permet de définir quelle fonction de la vue va-t-on appeler selon l'url définie.
+En d'autres termes, il consiste à créer des chemins et définir pour chaque chemin la fonction de rendu dans le fichiers \texttt{views.py}. Exemple : \texttt{www.santementale.fr/connexion} va rendre la fonction \texttt{connexion} dans views.
+
+
+\subsection*{Static}
+
+Le dossier \texttt{/static/assets/} regroupe tous les fichiers destinés à styliser l'interface utilisateur :
+\begin{itemize}
+    \item images (icônes, illustrations) ;
+    \item fichiers audio \texttt{.mp3} pour les méditations et bruits relaxants ;
+\end{itemize}
+
+\subsection*{Rôle du contrôleur dans Django}
+
+
+Ce fichier redirige chaque route vers la vue correspondante :
+
+\begin{quote}
+\textbf{URL} → \textbf{View} → \textbf{Template}
+\end{quote}
+
+Ainsi :
+\begin{itemize}
+    \item l’URL joue le rôle de contrôleur (Controller en MVC) 
+    \item la vue exécute la logique 
+    \item le template affiche le résultat
+\end{itemize}
+
+\section{4.3 Organisation des fichiers}
+
+Voici l’organisation générale telle qu’observée dans le projet :
+
+\begin{itemize}
+    \item \textbf{/mood/} : application principale regroupant les modèles, vues, templates et fichiers statiques 
+    \item \textbf{/mood/migrations/} : historique des migrations de la base 
+    \item \textbf{/templates/} : rendu HTML global (hérité par pages spécifiques) 
+    \item \textbf{/static/assets/} : images, sons, fichiers CSS 
+    \item \textbf{settings.py} : configuration du projet (base de données, middleware, templates) 
+    \item \textbf{urls.py} : définition des routes 
+    \item \texttt{db.sqlite3} : base locale utilisée par Django durant le développement.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{SanteMental/organisation.png}
+    \caption{Arborescence du projet}
+    \label{fig:creerCompte}
+\end{figure}
+
+\section{4.4 Sécurité}
+
+La sécurité constitue un aspect essentiel du projet. Django fournit plusieurs mécanismes intégrés utilisés dans l’application :
+\begin{itemize}
+    \item hachage des mots de passe via le système d'authentification Django 
+    \item protection CSRF automatique sur tous les formulaires 
+    \item gestion stricte des sessions utilisateurs 
+    \item structure des vues empêchant l'accès aux pages sans authentification
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{SanteMental/session.jpeg}
+    \caption{Sécurisation des formulaires via le token CSRF Django}
+    \label{fig:creerCompte}
+\end{figure}
+
+\chapter{Fonctionnalités Implémentées}
+
+Cette section présente l’ensemble des fonctionnalités développées dans le cadre de l’application. 
+Elles couvrent les aspects essentiels du suivi du bien-être, de l’authentification jusqu’au tracking quotidien.
+
+\section{ Module d’Authentification}
+
+Le module d’authentification repose sur le système intégré de Django. Il assure une gestion sécurisée 
+des utilisateurs ainsi qu’un contrôle strict des sessions.
+
+\subsection*{Fonctionnalités}
+
+\begin{itemize}
+
+    \item \textbf{Création de compte} : l’utilisateur peut s’inscrire via un formulaire dédié. 
+    Les données sont validées, puis enregistrées dans la base. Les mots de passe sont automatiquement hachés par Django.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\textwidth]{SanteMental/creerCompte.jpeg}
+        \caption{Interface d'Inscription }
+        \label{fig:creerCompte}
+    \end{figure}
+
+    \item \textbf{Connexion} : une fois inscrit, l’utilisateur peut se connecter grâce au module 
+    d’authentification. La vérification des identifiants est réalisée côté serveur.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/connexion.jpeg}
+        \caption{Interface de connexion}
+        \label{fig:connexion}
+    \end{figure}
+
+    \item \textbf{Déconnexion} : l’utilisateur peut se déconnecter à tout moment. 
+    \item \textbf{Sécurité des sessions} : Django protège automatiquement les sessions contre les attaques (CSRF, etc.).
+\end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/session.jpeg}
+        \caption{}
+        \label{fig:connexion}
+    \end{figure}
+Une fois connecté, l’utilisateur est redirigé vers la page d’accueil, qui affiche son prénom 
+et propose un accès direct au suivi quotidien, aux objectifs, aux ressources et au profil.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/home.png}
+        \caption{Accueil}
+        \label{fig:connexion}
+    \end{figure}
+\section{Module Mood Tracking}
+
+Le suivi quotidien constitue le cœur fonctionnel de l’application. Il permet à l’utilisateur 
+de consigner son humeur et plusieurs indicateurs de bien-être.
+
+\subsection*{Fonctionnalités}
+
+\begin{itemize}
+    \item \textbf{Saisie d’humeur} : sélection d’un emoji représentant l’émotion du jour, 
+
+    \item \textbf{Hydratation} : saisie du nombre de verres d’eau consommés.
+
+    \item \textbf{Sommeil} : enregistrement du nombre d’heures dormies.
+
+    \item \textbf{Activité physique} : évaluation simple de l’activité quotidienne.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/tracking.png}
+        \caption{Interface de tracking}
+        \label{fig:connexion}
+    \end{figure}
+
+    \item \textbf{Calendrier} : l’utilisateur peut visualiser son historique de saisies 
+    sous forme de calendrier interactif.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/graphe.png
+        }
+        \caption{Diagramme du jour}
+        \label{fig:connexion}
+    \end{figure}
+
+    \item \textbf{Statistiques} : l’application génère des graphiques ou tendances montrant 
+    l’évolution de l’humeur, du sommeil ou de l’hydratation.
+
+    \item \textbf{Messages personnalisés} : selon l’humeur enregistrée, des messages 
+    d’encouragement ou de soutien s’affichent.
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{SanteMental/msg_humeur.png}
+    \caption{Message en fonction de l'humeur}
+    \label{fig:creerCompte}
+\end{figure}
+
+
+Toutes ces données sont stockées dans la table \texttt{tracking}, liée à la table \texttt{utilisateur}.
+\section{Module Ressources}
+
+Ce module propose un espace d’aide et d’accompagnement pour favoriser le bien-être mental 
+de l’utilisateur. Il regroupe quatre types de contenus.
+
+\subsection*{Méditation}
+
+Sessions audio ou vidéos visant à réduire le stress et à favoriser la détente.  
+Elles sont intégrées directement dans l’interface via le dossier \texttt{/static/assets/}.
+
+\subsection*{Respiration guidée}
+
+Une animation développée en JavaScript grâce à la \textit{Web Animation API}.  
+Elle guide l’utilisateur dans un exercice de cohérence cardiaque.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/exercice.png}
+        \caption{Interface des exercices bien-être }
+        \label{fig:connexion}
+    \end{figure}
+\subsection*{Articles}
+
+Des contenus informatifs et validés scientifiquement couvrent :
+\begin{itemize}
+    \item les émotions ;
+    \item l’anxiété ;
+    \item le sommeil ;
+    \item la gestion du stress.
+\end{itemize}
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/article.png}
+        \caption{Interface des articles}
+        \label{fig:connexion}
+    \end{figure}
+\subsection*{Urgence}
+
+Un accès rapide aux numéros d’aide essentiels :
+\begin{itemize}
+    \item 3114  Prévention suicide 
+    \item SAMU 
+    \item Pompiers 
+\end{itemize}
+
+Ces numéros restent accessibles depuis toutes les pages
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/nums.png}
+        \caption{Interface des numéros d'urgence }
+        \label{fig:connexion}
+    \end{figure}
+
+\subsection*{Mon profil}
+
+On peut apporter des modifications à ses informations :
+\begin{itemize}
+    \item modifier son nom, prénom 
+    \item changer son mot de passe 
+    \item supprimer son compte
+\end{itemize}
+
+Cette page reste accessible tout au long de la navigation.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{SanteMental/profile.png}
+        \caption{Interface du profil}
+        \label{fig:connexion}
+    \end{figure}
+
+
+\section{5.4 Problèmes techniques rencontrés}
+
+Au cours du développement de l’application, plusieurs difficultés techniques ont été rencontrées. 
+Elles sont liées aussi bien à l’architecture Django qu’à l’intégration des différentes fonctionnalités.
+
+\subsection*{Principaux problèmes}
+
+\begin{itemize}
+    \item \textbf{Gestion des migrations Django} : 
+    certaines modifications de modèles ont entraîné des conflits entre les migrations, notamment 
+    lorsque la base avait été modifiée manuellement via SQL. Des erreurs de dépendances et de synchronisation 
+    ont nécessité une régénération partielle des migrations.
+
+    \item \textbf{Organisation des applications} : 
+    la structuration en modules distincts (mood, wellbeing, ressources) a demandé une réflexion particulière 
+    pour éviter les dépendances circulaires entre modèles, vues et URL.
+
+    \item \textbf{Bug dans le code Javascript et la liaison à la base de données} : 
+    le code présentait des bugs dans le fonctionnement du DOM, avec la disparition de certains éléments, ou la coordination des actions avec Django. Nous avons pu utiliser l'intelligence artificielle pour réviser nos bugs et faciliter la cohérence des actions en front et en back.
+
+    \item \textbf{Optimisation du responsive design} : 
+    plusieurs pages ne s’affichaient pas correctement sur mobile. 
+    L’intégration des fichiers Tailwind CSS et l’adaptation des composants ont nécessité des ajustements.
+
+    \item \textbf{Synchronisation des modules} : 
+    les données issues du tracking (humeur, hydratation, sommeil) devaient être cohérentes entre les vues, 
+    le modèle et les statistiques. L’un des défis a été d’assurer une mise à jour correcte et instantanée 
+    des informations affichées.
+\end{itemize}
+
+\section{5.5 Solutions mises en place}
+
+Afin de résoudre ces difficultés, plusieurs mesures techniques et méthodologiques ont été appliquées 
+au cours du projet.
+
+\subsection*{Méthodes et solutions}
+
+\begin{itemize}
+    \item \textbf{Modularisation du code} : 
+    chaque fonctionnalité a été isolée dans son application Django (mood, wellbeing, resources), 
+    ce qui a amélioré la lisibilité, la maintenabilité et l’évolutivité du code.
+
+    \item \textbf{Tests réguliers} : 
+    des tests manuels ont été effectués à chaque ajout de fonctionnalité pour vérifier la cohérence 
+    des données, le bon fonctionnement des vues et des redirections, ainsi que la stabilité de l’interface.
+
+    \item \textbf{Validation utilisateur} : 
+    chaque formulaire (connexion, création de compte, saisie quotidienne) a été accompagné de messages 
+    d’erreur ou de confirmation pour garantir une interaction fluide et intuitive.
+
+    \item \textbf{Documentation précise} : 
+    une documentation interne a été créée afin de suivre l’évolution du projet, décrire les modèles, 
+    répertorier les chemins internes (URL), et faciliter la résolution des bugs ou conflits de migration.
+\end{itemize}
+
+Ces solutions ont permis de stabiliser l’application, de simplifier les futures évolutions et d’améliorer 
+l’expérience utilisateur.
+
+\chapter{Améliorations Futures}
+
+Bien que l’application \textit{Santé Mentale} propose déjà un ensemble complet de fonctionnalités, 
+plusieurs évolutions sont envisagées afin de renforcer l’accompagnement émotionnel et 
+d’améliorer l’expérience utilisateur.
+
+\section{6.1 Fonctionnalités à développer}
+
+\begin{itemize}
+    \item \textbf{IA de recommandations émotionnelles} : 
+    un module d’intelligence artificielle pourrait analyser l’historique des humeurs, 
+    du sommeil et de l’hydratation afin de proposer des recommandations personnalisées : 
+    exercices de respiration, méditations ciblées, conseils adaptés, messages positifs, etc.
+
+    \item \textbf{Notifications de bien-être} : 
+    l’intégration de notifications pousserait l’utilisateur à maintenir ses habitudes 
+    (boire de l’eau, respirer profondément, enregistrer son humeur, dormir suffisamment). 
+    Ces rappels contribueraient à la régularité du suivi.
+
+    \item \textbf{Synchronisation multi-appareils} : 
+    une synchronisation via un compte cloud permettrait d’utiliser l’application 
+    sur plusieurs appareils (ordinateur, tablette, smartphone) tout en conservant 
+    un suivi cohérent et centralisé.
+
+    \item \textbf{Application mobile dédiée} : 
+    la création d’une version mobile native (iOS/Android), ou hybride via React Native 
+    ou Flutter, offrirait une utilisation plus fluide, un accès permanent et une intégration 
+    plus naturelle des notifications.
+\end{itemize}
+
+Ces améliorations visent à enrichir l’application, à renforcer son caractère 
+personnalisé et à offrir une expérience plus immersive et continue.
+
+\chapter{Conclusion}
+
+\section{7.1 Synthèse du projet}
+
+L’application \textit{Santé Mentale} constitue une plateforme complète dédiée au suivi du bien-être 
+émotionnel. Elle permet à l’utilisateur d’analyser ses habitudes quotidiennes, de suivre 
+l’évolution de son humeur, de consulter des ressources d’aide et de fixer des objectifs 
+personnels. Grâce à une architecture robuste basée sur Django et à une interface orientée 
+utilisateur, le projet offre une solution fiable, intuitive et adaptée aux besoins du 
+quotidien.
+
+Le travail réalisé démontre la capacité de combiner des aspects techniques 
+(développement, modélisation, sécurité) et des dimensions humaines telles que 
+l’accompagnement émotionnel et la sensibilisation au bien-être.
+
+\section{7.2 Compétences acquises}
+
+Au cours de la conception et du développement du projet, plusieurs compétences majeures 
+ont été consolidées :
+
+\begin{itemize}
+    \item \textbf{Développement Django} : maîtrise du framework, gestion des vues, modèles, 
+    système d’authentification, ORM et migrations.
+    
+    \item \textbf{Modélisation de données} : conception de tables SQL, gestion des relations, 
+    optimisation des accès aux données via l’ORM.
+
+    \item \textbf{Conception UX/UI} : réflexion sur l’expérience utilisateur, mise en page 
+    intuitive, design responsive et intégration d’animations visuelles.
+
+    \item \textbf{Gestion de projet} : planification, résolution de problèmes, documentation 
+    et organisation modulaire du code.
+\end{itemize}
+
+Ces compétences témoignent d’une progression significative dans la maîtrise des outils 
+de développement web et dans la réalisation d’un projet complet, de la conception à la mise en œuvre.
+
+\section{7.3 Perspectives}
+
+Le projet possède un fort potentiel d’évolution. Plusieurs axes d’amélioration ont été 
+identifiés, notamment :
+
+\begin{itemize}
+    \item \textbf{Intégration d'une IA de recommandations émotionnelles} : cette 
+    fonctionnalité permettrait d’adapter les contenus proposés 
+    (méditations, messages, exercices) selon l’état émotionnel de l’utilisateur.
+
+    \item \textbf{Mise en place de notifications intelligentes} : rappels d’hydratation, 
+    suivi de l’humeur, exercices de respiration ou conseils de sommeil.
+
+    \item \textbf{Synchronisation multi-appareils} : permettre une continuité d’usage entre 
+    smartphone, tablette et ordinateur grâce à un stockage centralisé.
+
+    \item \textbf{Développement d'une application mobile dédiée} : offrir une utilisation 
+    plus fluide, accessible en permanence, et mieux intégrée aux habitudes des utilisateurs.
+\end{itemize}
+
+À terme, l’application pourrait devenir un véritable assistant émotionnel intelligent, 
+capable d’accompagner l’utilisateur au quotidien et d’améliorer durablement son bien-être 
+de manière personnalisée et évolutive.
+
+\end{document}

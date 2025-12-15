@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Résolutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            background: '#ffffff',
+            card: '#D6CFFF',
+            accent: '#1C274C',
+            blue: '#B3E0FF',
+            green: '#D1FFD8',
+            pink: '#FFD1DC'
+          },
+          borderRadius: {
+            menu: '2rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-jua min-h-screen flex flex-col justify-between pb-[8rem]">
+
+  <!-- Header -->
+  <header class="p-6 flex justify-between items-center">
+    <span class="text-[1.5rem]"></span>
+    <div class="flex gap-6">
+      <a href="{% url 'logout' %}"><i class="fa-solid fa-power-off text-3xl"></i></a>
+      <a href="{% url 'profile' %}"><i class="fa-solid fa-gear text-3xl"></i></a>
+    </div>
+  </header>
+
+{% if messages %}
+  <div class="my-2">
+    {% for message in messages %}
+      <div class="p-3 rounded-md 
+                  {% if message.tags == 'error' %} bg-red-200 text-red-800 {% endif %}
+                  {% if message.tags == 'success' %} bg-green-200 text-green-800 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+  <!-- Titre -->
+  <h1 class="mx-8 text-2xl text-accent font-bold mb-4">I Promise Myself To:</h1>
+
+  
+
+  <!-- Contenu principal -->
+  <main class="px-6 pb-6 max-w-[63rem] w-full m-auto flex-1">
+    <!-- Formulaire d'ajout -->
+<form method="POST" action="{% url 'save_resolution' %}" class="flex gap-4 items-center mb-6">
+  {% csrf_token %}
+  <input type="text" id="resolutionInput" name="resolutionInput"
+         placeholder="Take time for myself..."
+         class="flex-1 p-3 rounded-md border border-gray-300" />
+  <input type="date" id="resolutionDate" name="resolutionDate"
+         class="p-3 rounded-md border border-gray-300" />
+  <button type="submit" class="bg-card px-4 py-2 rounded-md hover:bg-gray-400 transition">
+    Ajouter
+  </button>
+</form>
+
+<!-- Liste des résolutions -->
+<section>
+  <ul class="space-y-4">
+    {% for r in resolutions %}
+      <li class="bg-card p-4 rounded-xl shadow flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <!-- Toggle état checked -->
+          <form method="POST" action="{% url 'toggle_resolution' r.id %}">
+            {% csrf_token %}
+            <input type="checkbox"
+                   onchange="this.form.submit()"
+                   {% if r.checked %}checked{% endif %}
+                   class="w-5 h-5 accent-green-500" />
+          </form>
+
+          <div>
+            <p class="text-lg {% if r.checked %}line-through text-gray-500{% else %}text-black{% endif %}">
+              {{ r.intitule }}
+            </p>
+            <p class="text-sm text-gray-500">Date: {{ r.date_fixee|default:"—" }}</p>
+          </div>
+        </div>
+
+        <!-- Suppression -->
+        <form method="POST" action="{% url 'delete_resolution' r.id %}">
+          {% csrf_token %}
+          <button type="submit" class="text-xl">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
+      </li>
+    {% empty %}
+      <li class="text-gray-500">Aucune résolution pour l'instant.</li>
+    {% endfor %}
+  </ul>
+</section>
+
+  </main>
+
+  <!-- Menu -->
+  <footer class="fixed bottom-0 left-0 w-full px-4 pb-4 z-50">
+  <nav class="bg-card mx-auto w-[80%] max-w-[60rem] rounded-menu px-4 py-3 shadow-md">
+    <div class="flex justify-around items-center">
+      <a href="{% url 'home' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-house text-3xl text-accent"></i>
+        <span class="text-xs text-black">HOME</span>
+      </a>
+      <a href="{% url 'tracking' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-face-laugh text-3xl text-accent"></i>
+        <span class="text-xs text-black">TRACKING</span>
+      </a>
+      <a href="{% url 'resolutions' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-list-check text-3xl text-accent"></i>
+        <span class="text-xs text-black">RESOLUTIONS</span>
+      </a>
+      <a href="{% url 'exercices' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-person-praying text-3xl text-accent"></i>
+        <span class="text-xs text-black">EXERCICES</span>
+      </a>
+      <a href="{% url 'articles' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-accent"></i>
+        <span class="text-xs text-black">ARTICLES</span>
+      </a>
+      <a href="{% url 'numeros' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-phone-volume text-3xl text-accent"></i>
+        <span class="text-xs text-black">NUMEROS</span>
+      </a>
+    </div>
+  </nav>
+</footer>
+  <!-- Script 
+  <script>
+    const resolutionList = document.getElementById('resolutionList');
+    const resolutionInput = document.getElementById('resolutionInput');
+    const resolutionDate = document.getElementById('resolutionDate');
+    let resolutions = [];
+
+    function addResolution(e) {
+      e.preventDefault();
+      const text = resolutionInput.value.trim();
+      const date = resolutionDate.value;
+      if (text === '') return;
+
+      const item = {
+        id: Date.now(),
+        text,
+        date,
+        done: false
+      };
+      resolutions.push(item);
+      resolutionInput.value = '';
+      resolutionDate.value = '';
+      renderResolutions();
+    }
+
+    function toggleResolution(id) {
+      resolutions = resolutions.map(r => r.id === id ? { ...r, done: !r.done } : r);
+      renderResolutions();
+    }
+
+    function deleteResolution(id) {
+      resolutions = resolutions.filter(r => r.id !== id);
+      renderResolutions();
+    }
+
+    function renderResolutions() {
+      resolutionList.innerHTML = '';
+      resolutions.forEach(r => {
+        const li = document.createElement('li');
+        li.className = `bg-card p-4 rounded-xl shadow flex justify-between items-center`;
+
+        li.innerHTML = `
+          <div class="flex items-center gap-4">
+            <input type="checkbox" ${r.done ? 'checked' : ''} onclick="toggleResolution(${r.id})" class="w-5 h-5 accent-green-500" />
+            <div>
+              <p class="text-lg ${r.done ? 'line-through text-gray-500' : 'text-black'}">${r.text}</p>
+              <p class="text-sm text-gray-500">Date: ${r.date || '—'}</p>
+            </div>
+          </div>
+          <button onclick="deleteResolution(${r.id})" class="text-xl">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        `;
+        resolutionList.appendChild(li);
+      });
+    }
+  </script>
+-->
+</body>
+</html>

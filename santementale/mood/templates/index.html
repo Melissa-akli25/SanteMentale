@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connexion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font Jua -->
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            // Adjust these if your purple differs (share your hex and I’ll update)
+            surface: '#ffffff',
+            card: '#D6CFFF',      // violet form background (example close to Tailwind purple-600)
+            cardHover: '#6d28d9', // darker hover
+            textOnCard: '#000000',
+            textMuted: '#6b7280',
+          },
+          borderRadius: {
+            xl: '0.75rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-surface font-jua flex flex-col items-center justify-center">
+  {% if messages %}
+  <div class="my-2">
+    {% for message in messages %}
+      <div class="p-3 rounded-md 
+                  {% if message.tags == 'error' %} bg-red-200 text-red-800 {% endif %}
+                  {% if message.tags == 'success' %} bg-green-200 text-green-800 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+    <h1 class="my-4 text-center text-3xl">CONNEXION</h1>
+
+  <!-- Centered card -->
+  <main class="w-full max-w-md bg-card text-textOnCard rounded-xl shadow-lg p-8 flex flex-col gap-6">
+    <!-- Title -->
+
+
+         <!-- Form -->
+    <form class="flex flex-col gap-4" action="{% url 'connexion' %}" method="post">
+      {% csrf_token %}
+      <!-- Nom -->
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Mail :</span>
+        <input
+          type="text"
+          name="mail"
+          placeholder="Votre mail"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white"
+          aria-label="Nom"
+        />
+      </label>
+
+      <!-- Mdp -->
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Mdp :</span>
+        <input
+          type="password"
+          name="mdp"
+          placeholder="Votre mot de passe"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white"
+          aria-label="Mot de passe"
+        />
+      </label>
+
+     
+
+    </div>
+
+   
+  </main>
+
+   <!-- Submit -->
+      <button
+        type="submit"
+        class="my-4 w-fit-content px-[1rem] bg-card  font-bold py-3 rounded-md transition-colors hover:bg-gray-100"
+      >
+        SE CONNECTER
+      </button>
+    </form>
+
+    <!-- Register link -->
+    <p class="text-center text-sm">
+      Pas Encore Inscrit ?
+      <a href="{% url 'register' %}" class="underline text-textOnCard">Créer un compte</a>
+    </p>
+
+</body>
+</html>

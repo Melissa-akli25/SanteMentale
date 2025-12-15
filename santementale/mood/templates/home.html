@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  
+  <meta charset="UTF-8" />
+  <title>Accueil Bien-être</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Font Jua -->
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            background: '#ffffff',
+            card: '#D6CFFF',
+            accent: '#1C274C',
+            muted: '#606165',
+            purple:'#D6CFFF',
+            blue:'#B3E0FF',
+            pink:'#FFD1DC',
+            green:'#D1FFD8'
+          },
+          borderRadius: {
+            menu: '2rem',
+          }
+
+        }
+      }
+    }
+
+  </script>
+</head>
+
+{% load static %}
+
+<body class="bg-background font-jua min-h-screen flex flex-col justify-between pb-[8rem]">
+
+
+  <!-- Titre -->
+  <header class="p-6 flex justify-between">
+    <span class="text-[1.5rem]">HOME</span>
+    <div class="flex gap-6">
+        <a href="{% url 'logout' %}"><i class="fa-solid fa-power-off text-3xl"></i></a>
+        <a href="{% url 'profile' %}"><i class="fa-solid fa-gear text-3xl"></i></a>
+    </div>
+  </header>
+
+    <h1 class="mx-8 text-2xl text-accent font-bold">Bienvenue, {{ user_prenom }} {{ user_nom }} !</h1>
+
+
+  <!-- Grille des sections -->
+  <main class="px-6 pb-6 grid grid-cols-2 gap-4 max-w-[63rem] w-full m-auto">
+    <!-- Mood Tracking -->
+    <a href="{% url 'tracking' %}" class="bg-[url('{% static 'assets/mood.png' %}')] bg-no-repeat bg-right bg-contain bg-top border-[5px] border-purple h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">Mood Tracking</span>
+    </a>
+
+    <a href="{% url 'resolutions' %}" class="bg-[url('{% static 'assets/resolution.png' %}')] bg-no-repeat  bg-contain bg-right bg-top border-[5px] border-blue h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">Resolutions</span>
+    </a>
+
+    <a href="{% url 'exercices' %}" class="bg-[url('{% static 'assets/mediting.png' %}')] bg-no-repeat  bg-contain bg-right bg-top border-[5px] border-pink h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">Exercices</span>
+    </a>
+
+    <a href="{% url 'articles' %}" class="bg-[url('{% static 'assets/article.png' %}')] bg-no-repeat bg-contain bg-right bg-top border-[5px] border-pink h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">Articles</span>
+    </a>
+
+    <a href="{% url 'numeros' %}" class="bg-[url('{% static 'assets/calling.png' %}')] bg-no-repeat  bg-contain bg-right bg-top border-[5px] border-green h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">Phone Numbers</span>
+    </a>
+
+    <a href="{% url 'profile' %}" class="bg-[url('{% static 'assets/account.png' %}')] bg-no-repeat  bg-contain bg-right bg-top border-[5px] border-black h-[10.5rem] rounded-xl p-4 flex flex-col items-start justify-end gap-2 shadow hover:opacity-90 transition">
+      <span class="text-[2rem] text-black">My account</span>
+    </a>
+  
+
+
+
+  </main>
+
+  <!-- Menu -->
+  <footer class="fixed bottom-0 left-0 w-full px-4 pb-4 z-50">
+  <nav class="bg-card mx-auto w-[80%] max-w-[60rem] rounded-menu px-4 py-3 shadow-md">
+    <div class="flex justify-around items-center">
+      <a href="{% url 'home' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-house text-3xl text-accent"></i>
+        <span class="text-xs text-black">HOME</span>
+      </a>
+      <a href="{% url 'tracking' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-face-laugh text-3xl text-accent"></i>
+        <span class="text-xs text-black">TRACKING</span>
+      </a>
+      <a href="{% url 'resolutions' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-list-check text-3xl text-accent"></i>
+        <span class="text-xs text-black">RESOLUTIONS</span>
+      </a>
+      <a href="{% url 'exercices' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-person-praying text-3xl text-accent"></i>
+        <span class="text-xs text-black">EXERCICES</span>
+      </a>
+      <a href="{% url 'articles' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-book-open text-3xl text-accent"></i>
+        <span class="text-xs text-black">ARTICLES</span>
+      </a>
+      <a href="{% url 'numeros' %}" class="flex flex-col items-center gap-1 text-center">
+        <i class="fa-solid fa-phone-volume text-3xl text-accent"></i>
+        <span class="text-xs text-black">NUMEROS</span>
+      </a>
+    </div>
+  </nav>
+</footer>
+
+</body>
+</html>

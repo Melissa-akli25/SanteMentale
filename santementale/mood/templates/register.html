@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inscription</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jua: ['Jua', 'sans-serif'] },
+          colors: {
+            surface: '#ffffff',
+            card: '#D6CFFF',
+            textOnCard: '#000000',
+          },
+          borderRadius: {
+            xl: '0.75rem',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-surface font-jua flex flex-col items-center justify-center">
+
+   <!-- Bloc messages -->
+  {% if messages %}
+  <div class="my-2 w-full max-w-md">
+    {% for message in messages %}
+      <div class="p-3 rounded-md mb-2
+                  {% if message.tags == 'error' %} bg-red-200 text-red-800 {% endif %}
+                  {% if message.tags == 'success' %} bg-green-200 text-green-800 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Titre -->
+  <h1 class="my-4 text-center text-3xl">INSCRIPTION</h1>
+
+  <!-- Bloc violet -->
+  <main class="w-full max-w-md bg-card text-textOnCard rounded-xl shadow-lg p-8 flex flex-col gap-6">
+    <form class="flex flex-col gap-4" action="{% url 'register' %}" method="post">  {% csrf_token %}
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Nom :</span>
+        <input type="text" name="nom" placeholder="Votre nom"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white" />
+      </label>
+
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Prénom :</span>
+        <input type="text" name="prenom" placeholder="Votre prénom"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white" />
+      </label>
+
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Email :</span>
+        <input type="email" name="email" placeholder="Votre email"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white" />
+      </label>
+
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Mot de passe :</span>
+        <input type="password" name="mdp" placeholder="Créer un mot de passe"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white" />
+      </label>
+
+      <label class="flex flex-col gap-2">
+        <span class="text-base">Confirmation :</span>
+        <input type="password" name="confirm" placeholder="Confirmer le mot de passe"
+          class="w-full rounded-md p-3 text-black focus:outline-none focus:ring-2 focus:ring-white" />
+      </label>
+    
+  </main>
+
+  <!-- Bouton en dehors du bloc -->
+  <button type="submit"
+    class="my-4 bg-card text-black font-bold py-3 px-6 rounded-md transition-colors hover:bg-gray-100">
+    S'INSCRIRE
+  </button>
+  </form>
+
+  <!-- Lien vers connexion -->
+  <p class="text-center text-sm mt-2">
+    Déjà inscrit ?
+    <a href="{% url 'connexion' %}" class="underline text-card">Se connecter</a>
+  </p>
+
+</body>
+</html>
